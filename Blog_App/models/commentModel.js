@@ -4,7 +4,7 @@ const mongoose=require('mongoose');
 // route handler
     const commentSchema=new mongoose.Schema({
         post:{
-            // jab bih aur koi model ko refer kr rahe hai to aise likhte , id ko darsa raha ahi 
+            // jab bhi aur koi model ko refer kr rahe hai to aise likhte , id ko darsa raha ahi 
             type:mongoose.Schema.Types.ObjectId,
             // refernce to the post model
             ref:"Post" 
