@@ -1,7 +1,6 @@
 // import mongoose
 const mongoose=require('mongoose');
 
-// routes handler
 const postSchema=new mongoose.Schema({
     title:{
         type:String,
