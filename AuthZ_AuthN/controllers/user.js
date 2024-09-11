@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt"); // Import bcrypt
 const Register = require("../models/model");
-const jwt =require('jsonwebtoken')
+const jwt = require("jsonwebtoken");
 exports.SignupPost = async (req, res) => {
   try {
     const { name, password, email, role } = req.body;
@@ -84,9 +84,9 @@ exports.login = async (req, res) => {
 
       console.log(user);
 
-      (user.token = token);
-      let hashPassword=user.password;
-      user.password=undefined;
+      user.token = token;
+      let hashPassword = user.password;
+      user.password = undefined;
 
       const options = {
         expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
