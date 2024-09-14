@@ -36,7 +36,7 @@ async function CloudinaryUploadFile(file, folder) {
   };
 
   console.log("temp file path", file.tempFilePath);
-
+  options.resource_type='auto'
   return await cloudinary.uploader.upload(file.tempFilePath, options);
 }
 
@@ -84,7 +84,7 @@ exports.imageUpload = async (req, res) => {
     console.log("error in uploading in cloudinary");
   }
 };
-
+// video upload on cloudinary 
 exports.VideoUpload = async (req, res) => {
   try {
     const { name, tags, email } = req.body;
@@ -95,12 +95,31 @@ exports.VideoUpload = async (req, res) => {
     const VideoType = ["mp4"];
     const VideofileType = videoFile.name.split(".")[1].toLowerCase();
 
-    if (VideoType != VideofileType) {
+    const fileSizeInMb=videoFile.size/(1024*1024)
+
+    if (VideoType != VideofileType && fileSizeInMb >5) {
       return res.Status(400).json({
         success: false,
-        message: "file formate does not support",
+        message: "file formate does not support check size of video and type",
       });
     }
-    
-  } catch (e) {}
+    const Response=await CloudinaryUploadFile(videoFile, "Sample_file_upload");
+
+    const fileData = await File.create({
+      name,
+      tags,
+      email,
+      imageUrl: Response.secure_url,
+    });
+
+    res.json({
+      success: true,
+      imageUrl: Response.secure_url,
+      message: "Video uploaded successfully",
+    });
+  } catch (e) {
+    console.log("error",e);
+    console.log(err);
+    console.log("error in uploading in cloudinary");
+  }
 };
